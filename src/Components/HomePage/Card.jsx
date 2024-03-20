@@ -1,16 +1,17 @@
 import { Button, Card, Space } from 'antd';
-import { useEffect,useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-const Cards = ({title , description,completed,dueDate}) => {
+
+const Cards = ({ id, title, description, completed, dueDate }) => {
   const [data, setData] = useState([]);
   const authToken = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwibmFtZSI6InVzZXIyIiwibmJmIjoxNzEwMTM4MTQ4LCJleHAiOjE3MTAxNDE3NDgsImlhdCI6MTcxMDEzODE0OH0.LnYS5BYTAC57rGXiEvaVyxTGkprK9XPdwPH28mF6KEE66B18LcHFH8F-L3BGwIbdYnFk1nsV5rdxwy-XKkZjKQ";
-    const authTokenWithBearer = `Bearer ${authToken}`;
+  const authTokenWithBearer = `Bearer ${authToken}`;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://207.180.235.145/Tasks/list' , {
+        const response = await axios.get('http://207.180.235.145/Tasks/list', {
           headers: {
             Authorization: authTokenWithBearer
           }
@@ -24,7 +25,8 @@ const Cards = ({title , description,completed,dueDate}) => {
 
     fetchData();
   }, []) // Empty dependency array ensures this effect runs only once after initial render
-  const handleDelete = async (id) => {
+
+  const handleDelete = async () => {
     try {
       await axios.delete(`http://207.180.235.145/Tasks/${id}`, {
         headers: {
@@ -37,21 +39,24 @@ const Cards = ({title , description,completed,dueDate}) => {
       console.error('Error deleting data:', error);
     }
   };
-  return(
-  <Space direction="vertical" size={16}>
-    <Card
-      title={title}
-      extra={<Link to="update">Edit</Link>}
-      style={{
-        width: 300,
-      }}
-    >
-      <p>{description}</p>
-      <p>{dueDate}</p>
-      <p>{completed}</p>
-      <Button onClick={handleDelete}>Delete</Button>
-    </Card>
+
+  return (
+    <Space direction="vertical" size={16}>
+      <Card
+        title={title}
+        extra={<Link to={`update`}>Edit</Link>}
+        style={{
+          width: 300,
+          height: 400
+        }}
+      >
+        <p>{description}</p>
+        <p>{dueDate}</p>
+        <p>{completed}</p>
+        <Button onClick={handleDelete}>Delete</Button>
+      </Card>
     </Space>
-  )
+  );
 }
+
 export default Cards;

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cards from './Card';
 import { Space } from 'antd';
+import "./HomePage.css";
 
 const CardList = () => {
   const [data, setData] = useState([]);
@@ -39,7 +40,7 @@ const CardList = () => {
     }
   };
   return(
-    <Space direction="vertical" size={16}>
+    <div className='card'>
       {data.map(item => (
         <Cards
         key={item.id}
@@ -54,7 +55,7 @@ const CardList = () => {
       >
       </Cards>
       ))}
-      </Space>
+      </div>
   )};
 
 export default CardList;

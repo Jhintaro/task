@@ -7,11 +7,15 @@ import { Checkbox } from "antd";
 import { useState, useEffect } from "react";
 import "./Update.css";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-const { RangePicker } = DatePicker;
-const Edit = () => {
-  const [task, setTask] = useState(null);
-  const { id } = useParams();
+
+const Edit = ({itemIdToEdit}) => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: [],
+    image: null,
+    dueDate: null,
+    itemId: null, // New field to hold the item ID
+  });
   const authToken =
     "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwibmFtZSI6InVzZXIyIiwibmJmIjoxNzEwMTM4MTQ4LCJleHAiOjE3MTAxNDE3NDgsImlhdCI6MTcxMDEzODE0OH0.LnYS5BYTAC57rGXiEvaVyxTGkprK9XPdwPH28mF6KEE66B18LcHFH8F-L3BGwIbdYnFk1nsV5rdxwy-XKkZjKQ";
   const authTokenWithBearer = `Bearer ${authToken}`;
@@ -19,52 +23,102 @@ const Edit = () => {
     title: yup.string().required("Title Is Required!"),
     description: yup.array().of(yup.string()),
   });
-  useEffect(() => {
-    const fetchTask = async () => {
-      try {
-        const response = await axios.get(`http://207.180.235.145/tasks/${id}`, {
-          headers: {
-            Authorization: authTokenWithBearer,
-          },
-        });
-        setTask(response.data);
-      } catch (error) {
-        console.error("Error fetching task:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchTask = async () => {
+  //     try {
+  //       const response = await axios.get(`http://207.180.235.145/tasks/1`, {
+  //         headers: {
+  //           Authorization: authTokenWithBearer,
+  //         },
+  //       });
+  //       setTask(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching task:", error);
+  //     }
+  //   };
+  //   fetchTask();
+  // }, [id]); // Fetch task whenever ID changes
 
-    fetchTask();
-  }, [id]); // Fetch task whenever ID changes
-  const handleSubmit = (updatedTaskData) => {
-    console.log("Triggered");
-    axios
-      .put("http://207.180.235.145/Tasks/${id}", updatedTaskData, {
+  const fetchItemDetails = async (itemId) => {
+    try {
+      const response = await axios.get(`http://207.180.235.145/Tasks/${itemId}`, {
         headers: {
           Authorization: authTokenWithBearer,
-          "Content-Type": "multipart/form-data",
-          Accept: "application/json",
         },
-      })
-      .then((response) => {
-        console.log("Response", response.data);
-        alert("Form Updated Successfully");
-      })
-      .catch((error) => {
-        console.error("Error", error);
-        alert("Failed To Update Form");
       });
+      const item = response.data;
+      // Update formData with item details
+      setFormData({
+        title: item.title,
+        description: item.description,
+        image: item.image,
+        dueDate: item.dueDate,
+        itemId: itemId, // Set the itemId in formData
+      });
+    } catch (error) {
+      console.error("Error fetching item details:", error);
+    }
+  };
+  // Fetch item details if itemIdToEdit is provided
+  if (itemIdToEdit) {
+    fetchItemDetails(itemIdToEdit);
+  }
+  
+  // const handleSubmit = (updatedTaskData) => {
+  //   console.log("Triggered");
+  //   axios
+  //     .put("http://207.180.235.145/Tasks/", updatedTaskData, {
+  //       headers: {
+  //         Authorization: authTokenWithBearer,
+  //         "Content-Type": "multipart/form-data",
+  //         Accept: "application/json",
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log("Response", response.data);
+  //       alert("Form Updated Successfully");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error", error);
+  //       alert("Failed To Update Form");
+  //     });
+  // };
+  const handleSubmit = async (values) => {
+    console.log("Triggered");
+    try {
+      if (values.itemId) {
+        // Editing existing item
+        await axios.put(`http://207.180.235.145/Tasks/${values.itemId}`, values, {
+          headers: {
+            Authorization: authTokenWithBearer,
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+          },
+        });
+        console.log("Item updated successfully!");
+        alert("Item updated successfully!");
+      } else {
+        // Creating new item
+        await axios.post("http://207.180.235.145/Tasks", values, {
+          headers: {
+            Authorization: authTokenWithBearer,
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+          },
+        });
+        console.log("Item added successfully!");
+        alert("Item added successfully!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to submit form!");
+    }
   };
 
   return (
     <div className="form">
       <Formik
-        initialValues={{
-          title: "",
-          description: [],
-          image: null,
-          dueDate: null,
-          completed: false,
-        }}
+        initialValues={formData}
         validationSchema={schema}
         onSubmit={handleSubmit}
       >
