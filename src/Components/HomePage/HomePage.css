@@ -1,0 +1,21 @@
+body {
+  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+}
+.container {
+  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+  display: flex;
+}
+.header {
+  text-align: right;
+}
+.content {
+  justify-items: center;
+  height: 80vh;
+}
+.headeritems {
+  margin: 5px;
+}
+.divcontainer {
+  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+  text-align: center;
+}

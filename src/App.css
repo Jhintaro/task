@@ -1,0 +1,14 @@
+body {
+    background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+  }
+  .container{
+    background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+  }
+  .header{
+    align-items: end;
+    background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+    margin-bottom: 10px;
+  }
+  .headeritems{
+    margin: 5px;
+}
