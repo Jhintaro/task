@@ -2,7 +2,7 @@ import { Button, Card, Space } from 'antd';
 import { useEffect,useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-const Cards = ({title , description,completed}) => {
+const Cards = ({title , description,completed,dueDate}) => {
   const [data, setData] = useState([]);
   const authToken = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwibmFtZSI6InVzZXIyIiwibmJmIjoxNzEwMTM4MTQ4LCJleHAiOjE3MTAxNDE3NDgsImlhdCI6MTcxMDEzODE0OH0.LnYS5BYTAC57rGXiEvaVyxTGkprK9XPdwPH28mF6KEE66B18LcHFH8F-L3BGwIbdYnFk1nsV5rdxwy-XKkZjKQ";
     const authTokenWithBearer = `Bearer ${authToken}`;
@@ -47,6 +47,7 @@ const Cards = ({title , description,completed}) => {
       }}
     >
       <p>{description}</p>
+      <p>{dueDate}</p>
       <p>{completed}</p>
       <Button onClick={handleDelete}>Delete</Button>
     </Card>

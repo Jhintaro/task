@@ -5,7 +5,6 @@ import AddImage from "./Upload";
 import AddField from "./AddNewField";
 import "./ToDoForm.css";
 import axios from "axios";
-const { RangePicker } = DatePicker;
 const ToDo = () => {
   const authToken =
     "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwibmFtZSI6InVzZXIyIiwibmJmIjoxNzEwMTM4MTQ4LCJleHAiOjE3MTAxNDE3NDgsImlhdCI6MTcxMDEzODE0OH0.LnYS5BYTAC57rGXiEvaVyxTGkprK9XPdwPH28mF6KEE66B18LcHFH8F-L3BGwIbdYnFk1nsV5rdxwy-XKkZjKQ";
@@ -15,6 +14,10 @@ const ToDo = () => {
     description: yup.array().of(yup.string()),
   });
   const handleSubmit = (values) => {
+    //const dueDateInteger = values.dueDate ? values.dueDate.valueOf() : null;
+
+    // Modify the values object to include the dueDate as an integer
+    //const updatedValues = { ...values, dueDate: dueDateInteger };
     console.log("Triggered");
     axios
       .post("http://207.180.235.145/Tasks", values, {
@@ -69,16 +72,12 @@ const ToDo = () => {
             <p className="error">
               {errors.title && touched.title && errors.title}
             </p>
-            <RangePicker
+            <DatePicker
               name="dueDate"
               value={values["dueDate"]}
               onChange={(e) => setFieldValue("dueDate", e)}
               className="input"
-              picker="year"
-              id={{
-                start: "startInput",
-                end: "endInput",
-              }}
+              picker="month"
               onFocus={(_, info) => {
                 console.log("Focus:", info.range);
               }}

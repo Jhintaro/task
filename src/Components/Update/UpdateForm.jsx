@@ -11,7 +11,6 @@ import { useParams } from "react-router-dom";
 const { RangePicker } = DatePicker;
 const Edit = () => {
   const [task, setTask] = useState(null);
-  const [completed, setCompleted] = useState(false);
   const { id } = useParams();
   const authToken =
     "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwibmFtZSI6InVzZXIyIiwibmJmIjoxNzEwMTM4MTQ4LCJleHAiOjE3MTAxNDE3NDgsImlhdCI6MTcxMDEzODE0OH0.LnYS5BYTAC57rGXiEvaVyxTGkprK9XPdwPH28mF6KEE66B18LcHFH8F-L3BGwIbdYnFk1nsV5rdxwy-XKkZjKQ";
@@ -92,16 +91,12 @@ const Edit = () => {
             <p className="error">
               {errors.title && touched.title && errors.title}
             </p>
-            <RangePicker
+            <DatePicker
               name="dueDate"
               value={values["dueDate"]}
               onChange={(e) => setFieldValue("dueDate", e)}
               className="input"
-              picker="year"
-              id={{
-                start: "startInput",
-                end: "endInput",
-              }}
+              picker="month"
               onFocus={(_, info) => {
                 console.log("Focus:", info.range);
               }}

@@ -45,6 +45,7 @@ const CardList = () => {
         key={item.id}
         title={item.title}
         description={item.description}
+        dueDate={item.dueDate}
         completed={item.completed}
         style={{
           width: 300,
