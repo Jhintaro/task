@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cards from './Card';
-import { Space,Button } from 'antd';
+import { Space } from 'antd';
 
 const CardList = () => {
   const [data, setData] = useState([]);

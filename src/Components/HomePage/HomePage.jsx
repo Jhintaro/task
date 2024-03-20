@@ -1,10 +1,7 @@
 import "./HomePage.css";
-import Cards from "./Card";
 import { Layout } from "antd";
 import { Link } from "react-router-dom";
-import SignUp from "../SignUpPage/SignUpPage";
 import CardList from "./CardList";
-import ToDo from "../ToDoForm/ToDoForm";
 const { Content, Footer } = Layout;
 
 function HomePage() {
