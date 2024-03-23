@@ -14,10 +14,6 @@ const ToDo = () => {
     description: yup.array().of(yup.string()),
   });
   const handleSubmit = (values) => {
-    //const dueDateInteger = values.dueDate ? values.dueDate.valueOf() : null;
-
-    // Modify the values object to include the dueDate as an integer
-    //const updatedValues = { ...values, dueDate: dueDateInteger };
     console.log("Triggered");
     axios
       .post("http://207.180.235.145/Tasks", values, {

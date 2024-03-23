@@ -14,7 +14,7 @@ const Edit = ({itemIdToEdit}) => {
     description: [],
     image: null,
     dueDate: null,
-    itemId: null, // New field to hold the item ID
+    itemId: null,
   });
   const authToken =
     "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwibmFtZSI6InVzZXIyIiwibmJmIjoxNzEwMTM4MTQ4LCJleHAiOjE3MTAxNDE3NDgsImlhdCI6MTcxMDEzODE0OH0.LnYS5BYTAC57rGXiEvaVyxTGkprK9XPdwPH28mF6KEE66B18LcHFH8F-L3BGwIbdYnFk1nsV5rdxwy-XKkZjKQ";
@@ -37,7 +37,7 @@ const Edit = ({itemIdToEdit}) => {
   //     }
   //   };
   //   fetchTask();
-  // }, [id]); // Fetch task whenever ID changes
+  // }, [id]);
 
   const fetchItemDetails = async (itemId) => {
     try {

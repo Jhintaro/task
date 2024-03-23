@@ -17,7 +17,7 @@ const CardList = () => {
             Authorization: authTokenWithBearer
           }
         });
-        setData(response.data); // Assuming the response is an array of objects
+        setData(response.data);
         console.log(data)
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -25,7 +25,7 @@ const CardList = () => {
     };
 
     fetchData();
-  }, []) // Empty dependency array ensures this effect runs only once after initial render
+  }, [])
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://207.180.235.145/Tasks/${id}`, {
@@ -33,7 +33,6 @@ const CardList = () => {
           Authorization: `Bearer ${authToken}`,
         },
       });
-      // Remove the deleted entry from the local state
       setData(data.filter(item => item.id !== id));
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -51,7 +50,6 @@ const CardList = () => {
         style={{
           width: 300,
         }}
-        // Add other props as needed
       >
       </Cards>
       ))}
