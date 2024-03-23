@@ -44,7 +44,7 @@ const CardList = () => {
         <Cards
         key={item.id}
         title={item.title}
-        description={item.description}
+        description={Array.isArray(item.description) ? item.description : [item.description]}
         dueDate={item.dueDate}
         completed={item.completed}
         style={{

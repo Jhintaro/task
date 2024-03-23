@@ -1,8 +1,9 @@
 import { Button, Form, Input, DatePicker } from "antd";
-import { Formik } from "formik";
+import { Formik, FieldArray, Field } from "formik";
 import * as yup from "yup";
 import AddImage from "./Upload";
 import AddField from "./AddNewField";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import "./ToDoForm.css";
 import axios from "axios";
 const ToDo = () => {
@@ -38,7 +39,7 @@ const ToDo = () => {
       <Formik
         initialValues={{
           title: "",
-          description: [],
+          description: [""],
           image: null,
           dueDate: null,
         }}
@@ -58,6 +59,7 @@ const ToDo = () => {
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
             <p></p>
             <Input
+              style={{ width: "100%" }}
               className="input"
               placeholder="Enter title"
               name="title"
@@ -69,6 +71,7 @@ const ToDo = () => {
               {errors.title && touched.title && errors.title}
             </p>
             <DatePicker
+              style={{ width: "100%" }}
               name="dueDate"
               value={values["dueDate"]}
               onChange={(e) => setFieldValue("dueDate", e)}
@@ -83,23 +86,45 @@ const ToDo = () => {
               onDataChange={(date) => setFieldValue("dueDate", date)}
               onTouch={setFieldTouched}
             />
-            <Input
-              className="input"
-              placeholder="description"
-              name="description"
-              onChange={(e) => {
-                const descriptionArray = e.target.value.split(",");
-                setFieldValue("description", descriptionArray);
-              }}
-              onBlur={handleBlur}
-              value={values.description.join(",")}
-            ></Input>
+
+            <p></p>
+            <FieldArray name="description">
+              {(arrayHelpers) => (
+                <div>
+                  {values.description.map((description, index) => (
+                    <div
+                      key={index}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Field
+                        style={{ width: "calc(100% - 24px)" }}
+                        className="input"
+                        name={`description.${index}`}
+                        placeholder={`Enter Description ${index + 1}`}
+                      />
+
+                      <MinusCircleOutlined
+                        onClick={() => arrayHelpers.remove(index)}
+                        style={{ marginLeft: "8px" }}
+                      />
+                    </div>
+                  ))}
+                  <Button
+                    style={{ width: "100%" }}
+                    type="button"
+                    onClick={() => arrayHelpers.push("")}
+                    icon={<PlusOutlined />}
+                  >
+                    Add Description
+                  </Button>
+                </div>
+              )}
+            </FieldArray>
             <p className="error">
               {errors.description && touched.description && errors.description}
             </p>
-            <AddField></AddField>
-            <p></p>
             <AddImage
+              style={{ width: "100%" }}
               className="input"
               name="image"
               value={values.image}

@@ -1,8 +1,10 @@
 import { Button, Card, Space } from "antd";
+import PropTypes from 'prop-types';
 
 import { Link } from "react-router-dom";
 
 const Cards = ({ title, description, completed, dueDate }) => {
+  const descriptionArray = Array.isArray(description) ? description : [description];
   return (
     <Space direction="vertical" size={16}>
       <Card
@@ -13,7 +15,9 @@ const Cards = ({ title, description, completed, dueDate }) => {
           height: 400,
         }}
       >
-        <p>{description}</p>
+        {descriptionArray.map((desc, index) => (
+          <p key={index}>{desc}</p>
+        ))}
         <p>{dueDate}</p>
         <p>{completed}</p>
         <Button>Delete</Button>
@@ -21,5 +25,13 @@ const Cards = ({ title, description, completed, dueDate }) => {
     </Space>
   );
 };
-
+Cards.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]).isRequired,
+  completed: PropTypes.bool,
+  dueDate: PropTypes.string,
+};
 export default Cards;
